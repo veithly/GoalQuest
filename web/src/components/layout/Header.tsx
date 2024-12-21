@@ -1,8 +1,10 @@
 import { Rocket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { user, loggedIn, logIn, logOut } = useAuth();
 
   return (
     <header className="bg-gradient-to-r from-indigo-900 to-purple-900 text-white p-4 shadow-lg">
@@ -25,9 +27,25 @@ const Header = () => {
             Achievements
           </a>
         </nav>
-        <button className="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-full transition-colors">
-          Connect Wallet
-        </button>
+
+        {loggedIn ? (
+          <div className="space-y-4">
+            <p className="connected-text">
+              Connected as:{" "}
+              <span className="connected-username">{user?.addr}</span>
+            </p>
+            <button onClick={logOut} className="button button-disconnect">
+              Disconnect Wallet
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={logIn}
+            className="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-full transition-colors"
+          >
+            Connect Wallet
+          </button>
+        )}
       </div>
     </header>
   );
