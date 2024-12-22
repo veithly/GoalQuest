@@ -59,4 +59,6 @@ interface ICheckIn {
         address user,
         uint32 timestamp
     ) external view returns (CheckIn memory);
+
+    function getCheckInsByTask(uint32 taskId) external view returns (CheckIn[] memory);
 }

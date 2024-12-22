@@ -48,4 +48,8 @@ contract CheckInFacet is ICheckIn {
     ) external view override returns (CheckIn memory) {
         return LibCheckIn.getUserDailyCheckIn(taskId, user, timestamp);
     }
+
+    function getCheckInsByTask(uint32 taskId) external view override returns (CheckIn[] memory) {
+        return LibCheckIn.getCheckInsByTask(taskId);
+    }
 }

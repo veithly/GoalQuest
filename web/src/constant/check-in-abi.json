@@ -1,0 +1,211 @@
+[
+  {
+    "type": "function",
+    "name": "getCheckIn",
+    "inputs": [
+      { "name": "checkInId", "type": "uint32", "internalType": "uint32" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct ICheckIn.CheckIn",
+        "components": [
+          { "name": "id", "type": "uint32", "internalType": "uint32" },
+          { "name": "taskId", "type": "uint32", "internalType": "uint32" },
+          { "name": "timestamp", "type": "uint32", "internalType": "uint32" },
+          { "name": "status", "type": "uint8", "internalType": "uint8" },
+          { "name": "aiScore", "type": "uint8", "internalType": "uint8" },
+          {
+            "name": "participant",
+            "type": "address",
+            "internalType": "address"
+          },
+          { "name": "proofHash", "type": "string", "internalType": "string" }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getCheckInsByTask",
+    "inputs": [
+      { "name": "taskId", "type": "uint32", "internalType": "uint32" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct ICheckIn.CheckIn[]",
+        "components": [
+          { "name": "id", "type": "uint32", "internalType": "uint32" },
+          { "name": "taskId", "type": "uint32", "internalType": "uint32" },
+          { "name": "timestamp", "type": "uint32", "internalType": "uint32" },
+          { "name": "status", "type": "uint8", "internalType": "uint8" },
+          { "name": "aiScore", "type": "uint8", "internalType": "uint8" },
+          {
+            "name": "participant",
+            "type": "address",
+            "internalType": "address"
+          },
+          { "name": "proofHash", "type": "string", "internalType": "string" }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getUserDailyCheckIn",
+    "inputs": [
+      { "name": "taskId", "type": "uint32", "internalType": "uint32" },
+      { "name": "user", "type": "address", "internalType": "address" },
+      { "name": "timestamp", "type": "uint32", "internalType": "uint32" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct ICheckIn.CheckIn",
+        "components": [
+          { "name": "id", "type": "uint32", "internalType": "uint32" },
+          { "name": "taskId", "type": "uint32", "internalType": "uint32" },
+          { "name": "timestamp", "type": "uint32", "internalType": "uint32" },
+          { "name": "status", "type": "uint8", "internalType": "uint8" },
+          { "name": "aiScore", "type": "uint8", "internalType": "uint8" },
+          {
+            "name": "participant",
+            "type": "address",
+            "internalType": "address"
+          },
+          { "name": "proofHash", "type": "string", "internalType": "string" }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "requestPeerReview",
+    "inputs": [
+      { "name": "checkInId", "type": "uint32", "internalType": "uint32" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "submitCheckIn",
+    "inputs": [
+      { "name": "taskId", "type": "uint32", "internalType": "uint32" },
+      { "name": "proofHash", "type": "string", "internalType": "string" }
+    ],
+    "outputs": [{ "name": "", "type": "uint32", "internalType": "uint32" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "updateAIReview",
+    "inputs": [
+      { "name": "checkInId", "type": "uint32", "internalType": "uint32" },
+      { "name": "status", "type": "uint8", "internalType": "uint8" },
+      { "name": "aiScore", "type": "uint8", "internalType": "uint8" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "CheckInReviewed",
+    "inputs": [
+      {
+        "name": "checkInId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "taskId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "participant",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "status",
+        "type": "uint8",
+        "indexed": false,
+        "internalType": "uint8"
+      },
+      {
+        "name": "aiScore",
+        "type": "uint8",
+        "indexed": false,
+        "internalType": "uint8"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CheckInSubmitted",
+    "inputs": [
+      {
+        "name": "checkInId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "taskId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "participant",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "proofHash",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PeerReviewRequested",
+    "inputs": [
+      {
+        "name": "checkInId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "taskId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "participant",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  }
+]

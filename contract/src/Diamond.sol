@@ -9,6 +9,9 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 contract Diamond is IDiamond, UUPSUpgradeable, OwnableUpgradeable {
     constructor(address _contractOwner, address _diamondCutFacet) {
+        require(_contractOwner != address(0), "Diamond: owner cannot be 0 address");
+        require(_diamondCutFacet != address(0), "Diamond: diamondCut facet cannot be 0 address");
+
         LibDiamond.setContractOwner(_contractOwner);
 
         IDiamond.FacetCut[] memory cut = new IDiamond.FacetCut[](1);

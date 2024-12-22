@@ -43,6 +43,7 @@ library LibCheckIn {
 
         cs.dailyCheckIns[taskId][msg.sender][today] = checkInId;
         cs.userCheckInCounts[taskId][msg.sender]++;
+        cs.taskCheckIns[taskId].push(checkInId);
 
         emit ICheckIn.CheckInSubmitted(checkInId, taskId, msg.sender, proofHash);
 
@@ -94,5 +95,18 @@ library LibCheckIn {
 
     function getUserCheckInCount(uint32 taskId, address user) internal view returns (uint32) {
         return CheckInStorage.layout().userCheckInCounts[taskId][user];
+    }
+
+    function getCheckInsByTask(uint32 taskId) internal view returns (ICheckIn.CheckIn[] memory) {
+        CheckInStorage.Layout storage cs = CheckInStorage.layout();
+        uint256 length = cs.taskCheckIns[taskId].length;
+        ICheckIn.CheckIn[] memory checkIns = new ICheckIn.CheckIn[](length);
+
+        for (uint256 i = 0; i < length; i++) {
+            uint32 checkInId = cs.taskCheckIns[taskId][i];
+            checkIns[i] = cs.checkIns[checkInId];
+        }
+
+        return checkIns;
     }
 }

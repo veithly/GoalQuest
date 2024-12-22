@@ -15,6 +15,8 @@ library CheckInStorage {
         mapping(uint32 => mapping(address => mapping(uint32 => uint32))) dailyCheckIns;
         // Task ID => User address => CheckIn count
         mapping(uint32 => mapping(address => uint32)) userCheckInCounts;
+        // Task ID => CheckIn IDs
+        mapping(uint32 => uint32[]) taskCheckIns;
     }
 
     function layout() internal pure returns (Layout storage l) {

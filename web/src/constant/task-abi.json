@@ -1,0 +1,202 @@
+[
+  {
+    "type": "function",
+    "name": "createTask",
+    "inputs": [
+      { "name": "startTime", "type": "uint32", "internalType": "uint32" },
+      { "name": "endTime", "type": "uint32", "internalType": "uint32" },
+      { "name": "stakingAmount", "type": "uint96", "internalType": "uint96" },
+      {
+        "name": "participantsLimit",
+        "type": "uint16",
+        "internalType": "uint16"
+      },
+      { "name": "taskType", "type": "uint8", "internalType": "uint8" },
+      { "name": "stakingToken", "type": "address", "internalType": "address" },
+      { "name": "configHash", "type": "string", "internalType": "string" }
+    ],
+    "outputs": [{ "name": "", "type": "uint32", "internalType": "uint32" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getTask",
+    "inputs": [
+      { "name": "taskId", "type": "uint32", "internalType": "uint32" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct ITask.Task",
+        "components": [
+          { "name": "id", "type": "uint32", "internalType": "uint32" },
+          { "name": "startTime", "type": "uint32", "internalType": "uint32" },
+          { "name": "endTime", "type": "uint32", "internalType": "uint32" },
+          {
+            "name": "stakingAmount",
+            "type": "uint96",
+            "internalType": "uint96"
+          },
+          {
+            "name": "participantsLimit",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "currentParticipants",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          { "name": "creator", "type": "address", "internalType": "address" },
+          { "name": "flags", "type": "uint8", "internalType": "uint8" },
+          { "name": "taskType", "type": "uint8", "internalType": "uint8" },
+          {
+            "name": "stakingToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          { "name": "configHash", "type": "string", "internalType": "string" }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getUserTasks",
+    "inputs": [
+      { "name": "user", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "uint32[]", "internalType": "uint32[]" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isParticipant",
+    "inputs": [
+      { "name": "taskId", "type": "uint32", "internalType": "uint32" },
+      { "name": "user", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "joinTask",
+    "inputs": [
+      { "name": "taskId", "type": "uint32", "internalType": "uint32" }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "joinTaskWithToken",
+    "inputs": [
+      { "name": "taskId", "type": "uint32", "internalType": "uint32" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "TaskCompleted",
+    "inputs": [
+      {
+        "name": "taskId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "participant",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "reward",
+        "type": "uint96",
+        "indexed": false,
+        "internalType": "uint96"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "TaskCreated",
+    "inputs": [
+      {
+        "name": "taskId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "creator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "stakingAmount",
+        "type": "uint96",
+        "indexed": false,
+        "internalType": "uint96"
+      },
+      {
+        "name": "stakingToken",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "configHash",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "TaskJoined",
+    "inputs": [
+      {
+        "name": "taskId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "participant",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "stakingAmount",
+        "type": "uint96",
+        "indexed": false,
+        "internalType": "uint96"
+      },
+      {
+        "name": "stakingToken",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "SafeERC20FailedOperation",
+    "inputs": [
+      { "name": "token", "type": "address", "internalType": "address" }
+    ]
+  }
+]
