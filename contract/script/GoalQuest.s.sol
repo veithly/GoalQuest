@@ -88,13 +88,14 @@ contract GoalQuestScript is Script {
         IDiamond.FacetCut[] memory cut = new IDiamond.FacetCut[](4);
 
         // TaskFacet
-        bytes4[] memory taskSelectors = new bytes4[](6);
+        bytes4[] memory taskSelectors = new bytes4[](7);
         taskSelectors[0] = TaskFacet.createTask.selector;
         taskSelectors[1] = TaskFacet.joinTask.selector;
         taskSelectors[2] = TaskFacet.joinTaskWithToken.selector;
         taskSelectors[3] = TaskFacet.getTask.selector;
         taskSelectors[4] = TaskFacet.getUserTasks.selector;
         taskSelectors[5] = TaskFacet.isParticipant.selector;
+        taskSelectors[6] = TaskFacet.getAllTasks.selector;
 
         cut[0] = IDiamond.FacetCut({
             facetAddress: address(taskFacetAddress),

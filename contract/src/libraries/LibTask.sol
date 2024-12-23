@@ -126,4 +126,25 @@ library LibTask {
     function getTotalStaked(uint32 taskId) internal view returns (uint96) {
         return TaskStorage.layout().totalStaked[taskId];
     }
+
+    // 新增：获取所有任务列表
+    function getAllTasks() internal view returns (ITask.Task[] memory) {
+        TaskStorage.Layout storage ts = TaskStorage.layout();
+        uint32 totalTasks = ts.taskCounter;
+
+        // 创建一个固定大小的数组来存储所有有效的任务
+        ITask.Task[] memory allTasks = new ITask.Task[](totalTasks);
+        uint32 validTaskCount = 0;
+
+        // 遍历所有可能的任务ID
+        for (uint32 i = 1; i <= totalTasks; i++) {
+            ITask.Task storage task = ts.tasks[i];
+            if (task.id != 0) {  // 任务存在
+                allTasks[validTaskCount] = task;
+                validTaskCount++;
+            }
+        }
+
+        return allTasks;
+    }
 }

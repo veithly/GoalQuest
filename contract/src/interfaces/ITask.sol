@@ -56,4 +56,5 @@ interface ITask {
     function getTask(uint32 taskId) external view returns (Task memory);
     function getUserTasks(address user) external view returns (uint32[] memory);
     function isParticipant(uint32 taskId, address user) external view returns (bool);
+    function getAllTasks() external view returns (Task[] memory);
 }

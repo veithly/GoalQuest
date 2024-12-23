@@ -45,4 +45,8 @@ contract TaskFacet is ITask {
     function isParticipant(uint32 taskId, address user) external view override returns (bool) {
         return LibTask.isTaskParticipant(taskId, user);
     }
+
+    function getAllTasks() external view override returns (Task[] memory) {
+        return LibTask.getAllTasks();
+    }
 }

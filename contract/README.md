@@ -172,7 +172,7 @@ forge create --rpc-url $RPC_URL \
 ```bash
 export DIAMOND_ADDRESS=0x3D2e2f5e2760Af62a06C640c38Df8f82E13d02a6
 export DIAMOND_CUT_ADDRESS=0x9ECD7a3Ee1Db83c2D18F4592Ab496950DAc401D9
-export TASK_FACET_ADDRESS=0x13282BC7B7AD84A06ff0FBA47f83677319086e7F
+export TASK_FACET_ADDRESS=0x7F2d645aC1c821a94E3c46cd19DfeB582cBFa9B1
 export CHECKIN_FACET_ADDRESS=0x1ef302A9EbC8f3D7Bd38cc9AdC40eB38E6862C42
 export PEER_REVIEW_FACET_ADDRESS=0xf67f40e1bB89D2C4b006DF0c7e944872023D2840
 export REWARD_FACET_ADDRESS=0x6Dec7D60f7A38DA254Ef2299aDCa7C497BF7b318
@@ -233,6 +233,18 @@ forge verify-contract --rpc-url $RPC_URL \
 1. 在 Flow Testnet Explorer 查看合约代码和交互
 2. 使用 cast 调用合约方法进行测试
 3. 运行测试脚本验证功能完整性
+
+## 5. 升级Facet
+
+### 5.1 更新TaskFacet
+
+```bash
+forge script script/UpdateTaskFacet.s.sol:UpdateFacetScript --sig "updateTaskFacet()" \
+  --rpc-url $RPC_URL \
+  --broadcast \
+  --private-key $PRIVATE_KEY \
+  --legacy
+```
 
 ## 注意事项
 
