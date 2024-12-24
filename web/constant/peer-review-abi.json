@@ -1,0 +1,157 @@
+[
+  {
+    "type": "function",
+    "name": "assignReviewers",
+    "inputs": [
+      { "name": "checkInId", "type": "uint32", "internalType": "uint32" }
+    ],
+    "outputs": [
+      { "name": "", "type": "address[]", "internalType": "address[]" }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getReview",
+    "inputs": [
+      { "name": "checkInId", "type": "uint32", "internalType": "uint32" },
+      { "name": "reviewer", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IPeerReview.Review",
+        "components": [
+          { "name": "checkInId", "type": "uint32", "internalType": "uint32" },
+          { "name": "timestamp", "type": "uint32", "internalType": "uint32" },
+          { "name": "reviewer", "type": "address", "internalType": "address" },
+          { "name": "approved", "type": "bool", "internalType": "bool" },
+          { "name": "proofHash", "type": "string", "internalType": "string" }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getReviewSession",
+    "inputs": [
+      { "name": "checkInId", "type": "uint32", "internalType": "uint32" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IPeerReview.ReviewSession",
+        "components": [
+          { "name": "checkInId", "type": "uint32", "internalType": "uint32" },
+          { "name": "deadline", "type": "uint32", "internalType": "uint32" },
+          { "name": "approvalCount", "type": "uint8", "internalType": "uint8" },
+          {
+            "name": "rejectionCount",
+            "type": "uint8",
+            "internalType": "uint8"
+          },
+          { "name": "isComplete", "type": "bool", "internalType": "bool" },
+          {
+            "name": "reviewers",
+            "type": "address[]",
+            "internalType": "address[]"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isReviewer",
+    "inputs": [
+      { "name": "checkInId", "type": "uint32", "internalType": "uint32" },
+      { "name": "user", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "submitReview",
+    "inputs": [
+      { "name": "checkInId", "type": "uint32", "internalType": "uint32" },
+      { "name": "approved", "type": "bool", "internalType": "bool" },
+      { "name": "proofHash", "type": "string", "internalType": "string" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "ReviewCompleted",
+    "inputs": [
+      {
+        "name": "checkInId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "approved",
+        "type": "bool",
+        "indexed": false,
+        "internalType": "bool"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ReviewSubmitted",
+    "inputs": [
+      {
+        "name": "checkInId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "reviewer",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "approved",
+        "type": "bool",
+        "indexed": false,
+        "internalType": "bool"
+      },
+      {
+        "name": "proofHash",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ReviewerAssigned",
+    "inputs": [
+      {
+        "name": "checkInId",
+        "type": "uint32",
+        "indexed": true,
+        "internalType": "uint32"
+      },
+      {
+        "name": "reviewer",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  }
+]
