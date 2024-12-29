@@ -19,42 +19,29 @@ contract UpdateFacetScript is Script {
         vm.sleep(10 seconds);
 
         // 2. 准备 diamondCut 数据
-        IDiamond.FacetCut[] memory cut = new IDiamond.FacetCut[](2);
+        IDiamond.FacetCut[] memory cut = new IDiamond.FacetCut[](1);
 
-        // 3. 设置原有的 function selectors
-        bytes4[] memory existingSelectors = new bytes4[](6);
-        existingSelectors[0] = TaskFacet.createTask.selector;
-        existingSelectors[1] = TaskFacet.joinTask.selector;
-        existingSelectors[2] = TaskFacet.joinTaskWithToken.selector;
-        existingSelectors[3] = TaskFacet.getTask.selector;
-        existingSelectors[4] = TaskFacet.getUserTasks.selector;
-        existingSelectors[5] = TaskFacet.isParticipant.selector;
+        // 3. 设置所有 function selectors
+        bytes4[] memory selectors = new bytes4[](6);
+        selectors[0] = TaskFacet.createTask.selector;
+        selectors[1] = TaskFacet.joinTask.selector;
+        selectors[2] = TaskFacet.getTask.selector;
+        selectors[3] = TaskFacet.getUserTasks.selector;
+        selectors[4] = TaskFacet.isParticipant.selector;
+        selectors[5] = TaskFacet.getAllTasks.selector;
 
-        // 4. 替换现有功能
+        // 4. 替换所有功能
         cut[0] = IDiamond.FacetCut({
             facetAddress: address(newTaskFacet),
             action: IDiamond.FacetCutAction.Replace,
-            functionSelectors: existingSelectors
+            functionSelectors: selectors
         });
 
         vm.sleep(10 seconds);
 
-        // 5. 设置新的 function selector
-        bytes4[] memory newSelectors = new bytes4[](1);
-        newSelectors[0] = TaskFacet.getAllTasks.selector;
-
-        // 6. 添加新功能
-        cut[1] = IDiamond.FacetCut({
-            facetAddress: address(newTaskFacet),
-            action: IDiamond.FacetCutAction.Add,
-            functionSelectors: newSelectors
-        });
-
-        vm.sleep(10 seconds);
-
-        // 7. 执行 diamondCut
+        // 5. 执行 diamondCut
         IDiamond(diamondAddress).diamondCut(cut, address(0), "");
-        console2.log("TaskFacet updated successfully with new getAllTasks function");
+        console2.log("TaskFacet updated successfully with new implementation");
 
         vm.stopBroadcast();
     }

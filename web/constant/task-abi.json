@@ -110,7 +110,42 @@
     "inputs": [
       { "name": "user", "type": "address", "internalType": "address" }
     ],
-    "outputs": [{ "name": "", "type": "uint32[]", "internalType": "uint32[]" }],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct ITask.Task[]",
+        "components": [
+          { "name": "id", "type": "uint32", "internalType": "uint32" },
+          { "name": "startTime", "type": "uint32", "internalType": "uint32" },
+          { "name": "endTime", "type": "uint32", "internalType": "uint32" },
+          {
+            "name": "stakingAmount",
+            "type": "uint96",
+            "internalType": "uint96"
+          },
+          {
+            "name": "participantsLimit",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "currentParticipants",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          { "name": "creator", "type": "address", "internalType": "address" },
+          { "name": "flags", "type": "uint8", "internalType": "uint8" },
+          { "name": "taskType", "type": "uint8", "internalType": "uint8" },
+          {
+            "name": "stakingToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          { "name": "configHash", "type": "string", "internalType": "string" }
+        ]
+      }
+    ],
     "stateMutability": "view"
   },
   {
@@ -131,15 +166,6 @@
     ],
     "outputs": [],
     "stateMutability": "payable"
-  },
-  {
-    "type": "function",
-    "name": "joinTaskWithToken",
-    "inputs": [
-      { "name": "taskId", "type": "uint32", "internalType": "uint32" }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
   },
   {
     "type": "event",

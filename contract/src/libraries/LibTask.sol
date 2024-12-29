@@ -64,29 +64,26 @@ library LibTask {
         require(!ts.isParticipant[taskId][msg.sender], "Already joined this task");
         require(task.currentParticipants < task.participantsLimit, "Task is full");
         require(uint32(block.timestamp) < task.startTime, "Task has already started");
-        require(task.stakingToken == address(0), "Task requires ERC20 token");
-        require(msg.value == task.stakingAmount, "Incorrect staking amount");
 
-        _joinTask(ts, task, taskId);
-    }
+        // 如果质押金额为0，直接加入任务
+        if (task.stakingAmount == 0) {
+            _joinTask(ts, task, taskId);
+            return;
+        }
 
-    function joinTaskWithToken(uint32 taskId) internal {
-        TaskStorage.Layout storage ts = TaskStorage.layout();
-        ITask.Task storage task = ts.tasks[taskId];
-
-        require(task.id != 0, "Task does not exist");
-        require(task.flags & 1 == 1, "Task is not active"); // Check isActive flag
-        require(!ts.isParticipant[taskId][msg.sender], "Already joined this task");
-        require(task.currentParticipants < task.participantsLimit, "Task is full");
-        require(uint32(block.timestamp) < task.startTime, "Task has already started");
-        require(task.stakingToken != address(0), "Task requires native token");
-
-        // 转移 ERC20 代币
-        IERC20(task.stakingToken).safeTransferFrom(
-            msg.sender,
-            address(this),
-            task.stakingAmount
-        );
+        // 处理代币转移
+        if (task.stakingToken == address(0)) {
+            // 转移原生代币
+            require(msg.value == task.stakingAmount, "Incorrect staking amount");
+        } else {
+            // 转移 ERC20 代币
+            require(msg.value == 0, "Native token not accepted for ERC20 task");
+            IERC20(task.stakingToken).safeTransferFrom(
+                msg.sender,
+                address(this),
+                task.stakingAmount
+            );
+        }
 
         _joinTask(ts, task, taskId);
     }
@@ -111,8 +108,31 @@ library LibTask {
         return ts.tasks[taskId];
     }
 
-    function getUserTasks(address user) internal view returns (uint32[] memory) {
-        return TaskStorage.layout().userTasks[user];
+    function getUserTasks(address user) internal view returns (ITask.Task[] memory) {
+        TaskStorage.Layout storage ts = TaskStorage.layout();
+        uint32[] memory taskIds = ts.userTasks[user];
+
+        // 创建一个固定大小的数组来存储所有有效的任务
+        ITask.Task[] memory tasks = new ITask.Task[](taskIds.length);
+        uint32 validTaskCount = 0;
+
+        // 遍历用户的所有任务ID
+        for (uint256 i = 0; i < taskIds.length; i++) {
+            uint32 taskId = taskIds[i];
+            ITask.Task storage task = ts.tasks[taskId];
+            if (task.id != 0) {  // 任务存在
+                tasks[validTaskCount] = task;
+                validTaskCount++;
+            }
+        }
+
+        // 创建一个新数组，只包含有效的任务
+        ITask.Task[] memory validTasks = new ITask.Task[](validTaskCount);
+        for (uint256 i = 0; i < validTaskCount; i++) {
+            validTasks[i] = tasks[i];
+        }
+
+        return validTasks;
     }
 
     function getTaskParticipants(uint32 taskId) internal view returns (address[] memory) {

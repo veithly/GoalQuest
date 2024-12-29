@@ -30,15 +30,11 @@ contract TaskFacet is ITask {
         LibTask.joinTask(taskId);
     }
 
-    function joinTaskWithToken(uint32 taskId) external override {
-        LibTask.joinTaskWithToken(taskId);
-    }
-
     function getTask(uint32 taskId) external view override returns (Task memory) {
         return LibTask.getTask(taskId);
     }
 
-    function getUserTasks(address user) external view override returns (uint32[] memory) {
+    function getUserTasks(address user) external view override returns (Task[] memory) {
         return LibTask.getUserTasks(user);
     }
 
