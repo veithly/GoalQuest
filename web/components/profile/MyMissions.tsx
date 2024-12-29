@@ -1,28 +1,36 @@
-import React from 'react';
-import { Rocket } from 'lucide-react';
+"use client";
+import React, { useEffect } from "react";
+import { Rocket } from "lucide-react";
+import { useTaskContract } from "@/hooks/use-task-contract";
+import { useAccount } from "wagmi";
 
 const missions = [
   {
-    id: '1',
-    title: '30 Days of Coding',
+    id: "1",
+    title: "30 Days of Coding",
     progress: 65,
-    status: 'active',
+    status: "active",
   },
   {
-    id: '2',
-    title: 'Web3 Development',
+    id: "2",
+    title: "Web3 Development",
     progress: 45,
-    status: 'active',
+    status: "active",
   },
   {
-    id: '3',
-    title: 'Daily Meditation',
+    id: "3",
+    title: "Daily Meditation",
     progress: 100,
-    status: 'completed',
+    status: "completed",
   },
 ];
 
 const MyMissions = () => {
+  const { useGetUserTasks } = useTaskContract();
+  const { address } = useAccount();
+  const { data } = useGetUserTasks(address);
+  console.log("--- > data", data);
+
   return (
     <div className="bg-indigo-900/50 rounded-xl p-6">
       <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
@@ -37,16 +45,22 @@ const MyMissions = () => {
           >
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-semibold">{mission.title}</h3>
-              <span className={`px-3 py-1 rounded-full text-sm ${
-                mission.status === 'completed' ? 'bg-green-500/20 text-green-300' : 'bg-purple-500/20 text-purple-300'
-              }`}>
+              <span
+                className={`px-3 py-1 rounded-full text-sm ${
+                  mission.status === "completed"
+                    ? "bg-green-500/20 text-green-300"
+                    : "bg-purple-500/20 text-purple-300"
+                }`}
+              >
                 {mission.status}
               </span>
             </div>
             <div className="w-full bg-indigo-900/50 rounded-full h-2">
               <div
                 className={`h-2 rounded-full ${
-                  mission.status === 'completed' ? 'bg-green-500' : 'bg-purple-500'
+                  mission.status === "completed"
+                    ? "bg-green-500"
+                    : "bg-purple-500"
                 }`}
                 style={{ width: `${mission.progress}%` }}
               />

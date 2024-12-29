@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@tonflow/fcl";
 
 export default function useCurrentUser() {
   const [user, setUser] = useState({ addr: null });

@@ -1,6 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useTaskContract } from "@/hooks/use-task-contract";
+import dayjs from "dayjs";
+import { useState } from "react";
+import { zeroAddress } from "viem";
+import { useAccount } from "wagmi";
 
 interface MissionFormProps {
   onClose: () => void;
@@ -9,44 +13,78 @@ interface MissionFormProps {
 interface FormData {
   name: string;
   description: string;
-  startDate: string;
-  endDate: string;
-  stake: string;
-  participants: string;
+  startTime: number;
+  endTime: number;
+  stakingAmount: string;
+  participantsLimit: number;
+  stakingToken: `0x${string}`;
+  taskType: number;
 }
 
 export default function MissionForm({ onClose }: MissionFormProps) {
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    description: '',
-    startDate: '',
-    endDate: '',
-    stake: '',
-    participants: '',
+    name: "",
+    description: "",
+    startTime: 0,
+    endTime: 0,
+    stakingAmount: "",
+    participantsLimit: 0,
+    stakingToken: "0x",
+    taskType: 0,
   });
+  const { useCreateTask } = useTaskContract();
+  useCreateTask();
+  const { createTask, isLoading, isSuccess } = useCreateTask();
+  const account = useAccount();
+  // console.log("account", account);
+  console.log("isLoading", isLoading);
+  console.log("isSuccess", isSuccess);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       // TODO: Add API call to create mission
-      console.log('Form submitted:', formData);
-      onClose();
+      if (account.address) {
+        const params = {
+          ...formData,
+          endTime: dayjs(formData.endTime).valueOf() / 1000,
+          startTime: dayjs(formData.startTime).valueOf() / 1000,
+          stakingToken: zeroAddress,
+          taskType: 0,
+          hash: JSON.stringify({
+            name: formData.name,
+            description: formData.description,
+          }),
+        };
+        console.log("params", params);
+        const res = await createTask(params).catch((e) => {
+          console.log("e", e);
+        });
+      }
+
+      console.log("Form submitted:", formData);
+      // onClose();
     } catch (error) {
-      console.error('Error creating mission:', error);
+      console.error("Error creating mission:", error);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-6 space-y-6">
       <div className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-purple-300 mb-2">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-purple-300 mb-2"
+          >
             Mission Name
           </label>
           <input
@@ -62,7 +100,10 @@ export default function MissionForm({ onClose }: MissionFormProps) {
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-purple-300 mb-2">
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-purple-300 mb-2"
+          >
             Mission Description
           </label>
           <textarea
@@ -78,14 +119,17 @@ export default function MissionForm({ onClose }: MissionFormProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="startDate" className="block text-sm font-medium text-purple-300 mb-2">
+            <label
+              htmlFor="startTime"
+              className="block text-sm font-medium text-purple-300 mb-2"
+            >
               Start Date
             </label>
             <input
               type="datetime-local"
-              id="startDate"
-              name="startDate"
-              value={formData.startDate}
+              id="startTime"
+              name="startTime"
+              value={formData.startTime}
               onChange={handleChange}
               className="w-full bg-indigo-900/50 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
               required
@@ -93,14 +137,17 @@ export default function MissionForm({ onClose }: MissionFormProps) {
           </div>
 
           <div>
-            <label htmlFor="endDate" className="block text-sm font-medium text-purple-300 mb-2">
+            <label
+              htmlFor="endTime"
+              className="block text-sm font-medium text-purple-300 mb-2"
+            >
               End Date
             </label>
             <input
               type="datetime-local"
-              id="endDate"
-              name="endDate"
-              value={formData.endDate}
+              id="endTime"
+              name="endTime"
+              value={formData.endTime}
               onChange={handleChange}
               className="w-full bg-indigo-900/50 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
               required
@@ -110,14 +157,17 @@ export default function MissionForm({ onClose }: MissionFormProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="stake" className="block text-sm font-medium text-purple-300 mb-2">
+            <label
+              htmlFor="stakingAmount"
+              className="block text-sm font-medium text-purple-300 mb-2"
+            >
               Stake Amount (WEI)
             </label>
             <input
               type="number"
-              id="stake"
-              name="stake"
-              value={formData.stake}
+              id="stakingAmount"
+              name="stakingAmount"
+              value={formData.stakingAmount}
               onChange={handleChange}
               className="w-full bg-indigo-900/50 rounded-lg px-4 py-2 text-white placeholder-purple-400 focus:ring-2 focus:ring-purple-500 focus:outline-none"
               placeholder="Enter stake amount"
@@ -127,14 +177,17 @@ export default function MissionForm({ onClose }: MissionFormProps) {
           </div>
 
           <div>
-            <label htmlFor="participants" className="block text-sm font-medium text-purple-300 mb-2">
+            <label
+              htmlFor="participantsLimit"
+              className="block text-sm font-medium text-purple-300 mb-2"
+            >
               Max Participants
             </label>
             <input
               type="number"
-              id="participants"
-              name="participants"
-              value={formData.participants}
+              id="participantsLimit"
+              name="participantsLimit"
+              value={formData.participantsLimit}
               onChange={handleChange}
               className="w-full bg-indigo-900/50 rounded-lg px-4 py-2 text-white placeholder-purple-400 focus:ring-2 focus:ring-purple-500 focus:outline-none"
               placeholder="Enter max participants"

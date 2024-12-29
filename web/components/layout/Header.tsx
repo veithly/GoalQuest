@@ -1,5 +1,6 @@
-import Link from 'next/link';
-import { Rocket } from 'lucide-react';
+import Link from "next/link";
+import { Rocket } from "lucide-react";
+import { ConnectButton } from "./ConnectButton";
 
 export default function Header() {
   return (
@@ -13,16 +14,20 @@ export default function Header() {
           <Link href="/" className="hover:text-purple-300 transition-colors">
             Explore
           </Link>
-          <Link href="/profile" className="hover:text-purple-300 transition-colors">
+          <Link
+            href="/profile"
+            className="hover:text-purple-300 transition-colors"
+          >
             My Missions
           </Link>
-          <Link href="/profile#achievements" className="hover:text-purple-300 transition-colors">
+          <Link
+            href="/profile#achievements"
+            className="hover:text-purple-300 transition-colors"
+          >
             Achievements
           </Link>
         </nav>
-        <button className="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-full transition-colors">
-          Connect Wallet
-        </button>
+        <ConnectButton />
       </div>
     </header>
   );
