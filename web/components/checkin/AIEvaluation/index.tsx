@@ -1,14 +1,29 @@
-'use client';
+'use client'
 
-import { Rocket, XCircle } from 'lucide-react';
+import {Rocket, XCircle} from 'lucide-react'
+import {useRouter} from 'next/navigation'
+import {useEffect} from 'react'
 
 interface AIEvaluationProps {
-  isSubmitting?: boolean;
-  isSuccess?: boolean | null;
+  isSubmitting?: boolean
+  isSuccess?: boolean | null
 }
 
-export default function AIEvaluation({ isSubmitting, isSuccess }: AIEvaluationProps) {
-  if (!isSubmitting && !isSuccess) return null;
+export default function AIEvaluation({
+  isSubmitting,
+  isSuccess
+}: AIEvaluationProps) {
+  const router = useRouter()
+
+  useEffect(() => {
+    if (isSuccess) {
+      setTimeout(() => {
+        router.back()
+      }, 1000)
+    }
+  }, [isSuccess])
+
+  if (!isSubmitting && !isSuccess) return null
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -18,7 +33,9 @@ export default function AIEvaluation({ isSubmitting, isSuccess }: AIEvaluationPr
             <div className="animate-pulse mb-4">
               <Rocket className="w-12 h-12 mx-auto text-purple-400" />
             </div>
-            <h3 className="text-xl font-bold mb-2">AI Evaluation in Progress</h3>
+            <h3 className="text-xl font-bold mb-2">
+              AI Evaluation in Progress
+            </h3>
             <p className="text-purple-300">
               Our AI is analyzing your check-in data...
             </p>
@@ -50,5 +67,5 @@ export default function AIEvaluation({ isSubmitting, isSuccess }: AIEvaluationPr
         )}
       </div>
     </div>
-  );
+  )
 }

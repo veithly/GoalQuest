@@ -1,47 +1,49 @@
-"use client";
+'use client'
 
-import { useTaskContract } from "@/hooks/use-task-contract";
-import dayjs from "dayjs";
-import { useState } from "react";
-import { zeroAddress } from "viem";
-import { useAccount } from "wagmi";
+import {useTaskContract} from '@/hooks/use-task-contract'
+import dayjs from 'dayjs'
+import {useEffect, useState} from 'react'
+import {zeroAddress} from 'viem'
+// import {useAccount} from 'wagmi'
+
+import {Loader} from 'lucide-react'
 
 interface MissionFormProps {
-  onClose: () => void;
+  onClose: () => void
 }
 
 interface FormData {
-  name: string;
-  description: string;
-  startTime: number;
-  endTime: number;
-  stakingAmount: string;
-  participantsLimit: number;
-  stakingToken: `0x${string}`;
-  taskType: number;
+  name: string
+  description: string
+  startTime: number
+  endTime: number
+  stakingAmount: string
+  participantsLimit: number
+  stakingToken: `0x${string}`
+  taskType: number
 }
 
-export default function MissionForm({ onClose }: MissionFormProps) {
+export default function MissionForm({onClose}: MissionFormProps) {
   const [formData, setFormData] = useState<FormData>({
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     startTime: 0,
     endTime: 0,
-    stakingAmount: "",
+    stakingAmount: '',
     participantsLimit: 0,
-    stakingToken: "0x",
-    taskType: 0,
-  });
-  const { useCreateTask } = useTaskContract();
-  useCreateTask();
-  const { createTask, isLoading, isSuccess } = useCreateTask();
-  const account = useAccount();
+    stakingToken: '0x',
+    taskType: 0
+  })
+  const {useCreateTask} = useTaskContract()
+  useCreateTask()
+  const {createTask, isLoading, isSuccess} = useCreateTask()
+  const account = {} //useAccount()
   // console.log("account", account);
-  console.log("isLoading", isLoading);
-  console.log("isSuccess", isSuccess);
+  console.log('isLoading', isLoading)
+  console.log('isSuccess', isSuccess)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
       // TODO: Add API call to create mission
@@ -54,28 +56,35 @@ export default function MissionForm({ onClose }: MissionFormProps) {
           taskType: 0,
           hash: JSON.stringify({
             name: formData.name,
-            description: formData.description,
-          }),
-        };
-        console.log("params", params);
+            description: formData.description
+          })
+        }
+        console.log('params', params)
         const res = await createTask(params).catch((e) => {
-          console.log("e", e);
-        });
+          console.log('e', e)
+        })
       }
 
-      console.log("Form submitted:", formData);
+      console.log('Form submitted:', formData)
       // onClose();
     } catch (error) {
-      console.error("Error creating mission:", error);
+      console.error('Error creating mission:', error)
     }
-  };
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+    const {name, value} = e.target
+    setFormData((prev) => ({...prev, [name]: value}))
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      onClose()
+    }
+    return () => {}
+  }, [isSuccess])
 
   return (
     <form onSubmit={handleSubmit} className="p-6 space-y-6">
@@ -83,8 +92,7 @@ export default function MissionForm({ onClose }: MissionFormProps) {
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-medium text-purple-300 mb-2"
-          >
+            className="block text-sm font-medium text-purple-300 mb-2">
             Mission Name
           </label>
           <input
@@ -102,8 +110,7 @@ export default function MissionForm({ onClose }: MissionFormProps) {
         <div>
           <label
             htmlFor="description"
-            className="block text-sm font-medium text-purple-300 mb-2"
-          >
+            className="block text-sm font-medium text-purple-300 mb-2">
             Mission Description
           </label>
           <textarea
@@ -121,8 +128,7 @@ export default function MissionForm({ onClose }: MissionFormProps) {
           <div>
             <label
               htmlFor="startTime"
-              className="block text-sm font-medium text-purple-300 mb-2"
-            >
+              className="block text-sm font-medium text-purple-300 mb-2">
               Start Date
             </label>
             <input
@@ -139,8 +145,7 @@ export default function MissionForm({ onClose }: MissionFormProps) {
           <div>
             <label
               htmlFor="endTime"
-              className="block text-sm font-medium text-purple-300 mb-2"
-            >
+              className="block text-sm font-medium text-purple-300 mb-2">
               End Date
             </label>
             <input
@@ -159,8 +164,7 @@ export default function MissionForm({ onClose }: MissionFormProps) {
           <div>
             <label
               htmlFor="stakingAmount"
-              className="block text-sm font-medium text-purple-300 mb-2"
-            >
+              className="block text-sm font-medium text-purple-300 mb-2">
               Stake Amount (WEI)
             </label>
             <input
@@ -179,8 +183,7 @@ export default function MissionForm({ onClose }: MissionFormProps) {
           <div>
             <label
               htmlFor="participantsLimit"
-              className="block text-sm font-medium text-purple-300 mb-2"
-            >
+              className="block text-sm font-medium text-purple-300 mb-2">
               Max Participants
             </label>
             <input
@@ -202,17 +205,15 @@ export default function MissionForm({ onClose }: MissionFormProps) {
         <button
           type="button"
           onClick={onClose}
-          className="px-6 py-2 rounded-full hover:bg-purple-800 transition-colors"
-        >
+          className="px-6 py-2 rounded-full hover:bg-purple-800 transition-colors">
           Cancel
         </button>
         <button
           type="submit"
-          className="px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-full font-semibold transition-colors"
-        >
-          Create Mission
+          className="px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 rounded-full font-semibold transition-colors">
+          {isLoading ? <Loader className="animate-spin" /> : 'Create Mission'}
         </button>
       </div>
     </form>
-  );
+  )
 }
