@@ -17,9 +17,6 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^5.62.10
     version: 5.62.10(react@18.3.1)
-  cid:
-    specifier: github:multiformats/cid
-    version: github.com/multiformats/cid/603f4570ba051192224dd1a3b131a6ebdd486b4f
   dayjs:
     specifier: ^1.11.13
     version: 1.11.13
@@ -6608,10 +6605,4 @@ packages:
       '@types/react': 18.3.18
       react: 18.3.1
       use-sync-external-store: 1.2.0(react@18.3.1)
-    dev: false
-
-  github.com/multiformats/cid/603f4570ba051192224dd1a3b131a6ebdd486b4f:
-    resolution: {tarball: https://codeload.github.com/multiformats/cid/tar.gz/603f4570ba051192224dd1a3b131a6ebdd486b4f}
-    name: cid
-    version: 0.0.0
     dev: false
