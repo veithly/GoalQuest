@@ -1,34 +1,40 @@
-import React from 'react';
-import { Trophy, Star, Award } from 'lucide-react';
+import React from "react";
+import { Trophy, Star, Award, LucideIcon } from "lucide-react";
 
-const achievements = [
+const achievements: {
+  id: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  rarity: "legendary" | "rare" | "epic";
+}[] = [
   {
-    id: '1',
-    title: 'Early Explorer',
-    description: 'One of the first 100 users',
+    id: "1",
+    title: "Early Explorer",
+    description: "One of the first 100 users",
     icon: Star,
-    rarity: 'legendary',
+    rarity: "legendary",
   },
   {
-    id: '2',
-    title: 'Mission Master',
-    description: 'Completed 5 missions',
+    id: "2",
+    title: "Mission Master",
+    description: "Completed 5 missions",
     icon: Trophy,
-    rarity: 'rare',
+    rarity: "rare",
   },
   {
-    id: '3',
-    title: 'Perfect Streak',
-    description: '30 days without missing a check-in',
+    id: "3",
+    title: "Perfect Streak",
+    description: "30 days without missing a check-in",
     icon: Award,
-    rarity: 'epic',
+    rarity: "epic",
   },
 ];
 
 const rarityColors = {
-  legendary: 'from-yellow-500 to-orange-500',
-  epic: 'from-purple-500 to-pink-500',
-  rare: 'from-blue-500 to-indigo-500',
+  legendary: "from-yellow-500 to-orange-500",
+  epic: "from-purple-500 to-pink-500",
+  rare: "from-blue-500 to-indigo-500",
 };
 
 const Achievements = () => {
@@ -44,12 +50,16 @@ const Achievements = () => {
           return (
             <div
               key={achievement.id}
-              className={`bg-gradient-to-br ${rarityColors[achievement.rarity]} p-[1px] rounded-lg`}
+              className={`bg-gradient-to-br ${
+                rarityColors[achievement.rarity]
+              } p-[1px] rounded-lg`}
             >
               <div className="bg-indigo-900/90 p-4 rounded-lg h-full">
                 <Icon className="w-8 h-8 mb-3" />
                 <h3 className="font-semibold mb-1">{achievement.title}</h3>
-                <p className="text-sm text-purple-300">{achievement.description}</p>
+                <p className="text-sm text-purple-300">
+                  {achievement.description}
+                </p>
               </div>
             </div>
           );

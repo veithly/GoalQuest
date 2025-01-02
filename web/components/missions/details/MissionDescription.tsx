@@ -1,5 +1,12 @@
-import { Calendar, Target, CheckSquare, Trophy, Coins, Medal } from 'lucide-react';
-import Image from 'next/image';
+import {
+  Calendar,
+  Target,
+  CheckSquare,
+  Trophy,
+  Coins,
+  Medal,
+} from "lucide-react";
+import Image from "next/image";
 
 export default function MissionDescription() {
   return (
@@ -9,7 +16,10 @@ export default function MissionDescription() {
           <Target className="w-5 h-5 mt-1 text-purple-400" />
           <div>
             <h3 className="font-semibold mb-2">Mission Objective</h3>
-            <p className="text-purple-200">Code for at least 1 hour every day for 30 days to build consistent coding habits.</p>
+            <p className="text-purple-200">
+              Code for at least 1 hour every day for 30 days to build consistent
+              coding habits.
+            </p>
           </div>
         </div>
 
@@ -17,7 +27,9 @@ export default function MissionDescription() {
           <CheckSquare className="w-5 h-5 mt-1 text-purple-400" />
           <div>
             <h3 className="font-semibold mb-2">Check-in Requirements</h3>
-            <p className="text-purple-200">Share a screenshot of your code or GitHub contributions daily.</p>
+            <p className="text-purple-200">
+              Share a screenshot of your code or GitHub contributions daily.
+            </p>
           </div>
         </div>
 
@@ -35,7 +47,7 @@ export default function MissionDescription() {
           <Coins className="w-5 h-5 mt-1 text-purple-400" />
           <div>
             <h3 className="font-semibold mb-2">Reward Pool</h3>
-            <p className="text-purple-200">Current Pool: 1500 MATIC</p>
+            <p className="text-purple-200">Current Pool: 1500 FLOW</p>
           </div>
         </div>
 
@@ -57,15 +69,17 @@ export default function MissionDescription() {
             <h3 className="font-semibold mb-2">NFT Achievement</h3>
             <div className="bg-purple-900/50 p-4 rounded-lg">
               <div className="relative w-20 h-20 mx-auto mb-2">
-                <Image 
-                  src="https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=150&h=150&fit=crop" 
+                <Image
+                  src="https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=150&h=150&fit=crop"
                   alt="NFT Badge"
                   width={80}
                   height={80}
                   className="rounded-lg"
                 />
               </div>
-              <p className="text-center text-sm text-purple-200">Coding Warrior NFT Badge</p>
+              <p className="text-center text-sm text-purple-200">
+                Coding Warrior NFT Badge
+              </p>
             </div>
           </div>
         </div>

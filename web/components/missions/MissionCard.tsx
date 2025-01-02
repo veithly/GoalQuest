@@ -24,8 +24,9 @@ export default function MissionCard(props: MissionCardProps) {
     `${((now - props.startTime) / (props.endTime - props.startTime)) * 100}`
   );
 
-  const onJoin = () => {
-    joinTask({ taskId: props.id });
+  const onJoin = async () => {
+    const result = await joinTask({ taskId: props.id });
+    console.log("result ---> ", result);
   };
 
   return (

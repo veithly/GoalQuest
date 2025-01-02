@@ -1,4 +1,3 @@
-import { add } from "./../lib/helia";
 import {
   useReadContract,
   useWaitForTransactionReceipt,

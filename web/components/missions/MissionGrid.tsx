@@ -1,35 +1,46 @@
 "use client";
 import { useTaskContract } from "@/hooks/use-task-contract";
 import MissionCard from "./MissionCard";
-// import { missions } from "@/lib/data/missions";
-import { contractAddress } from "@/constant/contract-address";
-import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
-import { d } from "@/lib/helia";
 import { formatUnits } from "viem";
 
+interface MissionCardProps {
+  id: number;
+  name: string;
+  taskType: string;
+  description: number;
+  stakingAmount: number;
+  participantsLimit: number;
+  currentParticipants: number;
+  startTime: number;
+  endTime: number;
+}
+
 export default function MissionGrid() {
-  const [missionJsonData, setMissionJsonData] = useState([]);
+  const [missionJsonData, setMissionJsonData] = useState<MissionCardProps[]>(
+    []
+  );
 
   const { useGetAllTasks } = useTaskContract();
-  const account = useAccount();
   const { data: missions } = useGetAllTasks();
 
   const updateMisson = () => {
-    console.log(missions, "<---missions");
-    const jsonData = missions
-      .filter((m) => m.configHash.includes("{"))
-      .map((m) => {
-        return {
-          ...m,
+    if (Array.isArray(missions)) {
+      console.log(missions, "<---missions");
+      const jsonData = missions
+        ?.filter((m: { configHash: string }) => m.configHash.includes("{"))
+        .map((m: { configHash: string; stakingAmount: bigint }) => {
+          return {
+            ...m,
 
-          ...JSON.parse(m.configHash),
-          stakingAmount: formatUnits(m.stakingAmount, 18),
-        };
-      });
+            ...JSON.parse(m.configHash),
+            stakingAmount: formatUnits(m.stakingAmount, 18),
+          };
+        });
 
-    console.log("jsonData", jsonData);
-    setMissionJsonData(jsonData);
+      console.log("jsonData", jsonData);
+      setMissionJsonData(jsonData);
+    }
   };
 
   useEffect(() => {
